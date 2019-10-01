@@ -30,6 +30,7 @@ class EmptyListPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          Padding(padding: EdgeInsets.only(top: 100)),
           Text(
             'O SIGAA é lento, tenha calma.',
             textAlign: TextAlign.center,
