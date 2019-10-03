@@ -32,9 +32,6 @@ class AboutPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           title: Text('Notas'),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
-        ),
       ),
       drawer: Drawer(
         child: DrawerPage('nono'),

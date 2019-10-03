@@ -69,9 +69,6 @@ class _SchedulesState extends State<SchedulesPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Horários'),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
-        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.calendar_today),
@@ -133,8 +130,8 @@ class _SchedulesState extends State<SchedulesPage> {
                 [6, 'Sexta'],
               ].map(
                 (e) {
-                  return table.Table(
-                    e[1],
+                  return table.Table(e[1],
+                    null,
                       ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,

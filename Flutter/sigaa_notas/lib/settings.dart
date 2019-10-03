@@ -34,9 +34,6 @@ class _SettingsState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Configurações'),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
-        ),
       ),
       drawer: Drawer(
         child: DrawerPage('logo'),

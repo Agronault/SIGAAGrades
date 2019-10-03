@@ -55,9 +55,6 @@ class _FrequencyState extends State<FrequencyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Frequência'),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
-        ),
       ),
       drawer: Drawer(
         child: DrawerPage('logo'),

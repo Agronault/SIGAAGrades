@@ -42,6 +42,7 @@ class _GradesState extends State<GradesPage> {
   final _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   final _courses = <Course>[];
   Database _db;
+  bool showGrades= true;
 
   @override
   void initState() {
@@ -67,9 +68,11 @@ class _GradesState extends State<GradesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Notas'),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
-        ),
+        actions: <Widget>[
+          IconButton(
+              icon: _getShowGradesIcon(),
+              onPressed: _switchShowGrades)
+        ],
       ),
       drawer: Drawer(
         child: DrawerPage('logo'),
@@ -87,7 +90,7 @@ class _GradesState extends State<GradesPage> {
             : ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   var course = _courses[index];
-                  return table.Table(course.name,
+                  return table.Table(course.name, course,
                         Column(
                           children: <Widget>[
                             DataTable(
@@ -102,7 +105,7 @@ class _GradesState extends State<GradesPage> {
                                     cells: [
                                       DataCell(Text(g.activityName)),
                                       DataCell(Text(g.totalValue)),
-                                      DataCell(Text(g.scoreValue)),
+                                      DataCell(_verifyShowGrades(g.scoreValue)),
                                     ],
                                   );
                                 },
@@ -180,5 +183,31 @@ class _GradesState extends State<GradesPage> {
       }
     }
     return x;
+  }
+
+  Widget _getShowGradesIcon(){
+    if(this.showGrades){
+      return Icon( Icons.visibility);
+    }else{
+      return Icon( Icons.visibility_off);
+    }
+  }
+
+  void _switchShowGrades()async{
+    setState(() {
+      this.showGrades = !this.showGrades;
+    });
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('showGrades', this.showGrades);
+  }
+
+  Widget _verifyShowGrades(String text){
+    if(this.showGrades){
+      return Text(text);
+    }else if(text.length > 0){
+      return Text("_____");
+    }else{
+      return Text(" ");
+    }
   }
 }

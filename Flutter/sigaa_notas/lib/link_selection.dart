@@ -67,9 +67,6 @@ class _LinkSelectionState extends State<LinkSelectionPage> {
     return Scaffold(
       appBar: AppBar(
           title: Text('Seleção de Vínculo'),
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
-          ),
       ),
       body: Padding(
         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -86,7 +83,7 @@ class _LinkSelectionState extends State<LinkSelectionPage> {
               : ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
                     var link = _links[index];
-                    return table.Table(link.immatriculation,
+                    return table.Table(link.immatriculation, null,
                         ListTile(
                           title: Text(link.name),
                           onTap: () async => await _selectLink(link),
