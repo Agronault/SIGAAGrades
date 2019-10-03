@@ -29,6 +29,7 @@ import 'package:sigaa_notas/sigaa.dart';
 import 'package:sigaa_notas/utils.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:toast/toast.dart';
+import 'widgets/table.dart' as table;
 
 class LinkSelectionPage extends StatefulWidget {
   @override
@@ -64,9 +65,14 @@ class _LinkSelectionState extends State<LinkSelectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Seleção de Vínculo')),
+      appBar: AppBar(
+          title: Text('Seleção de Vínculo'),
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
+          ),
+      ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: RefreshIndicator(
           key: _refreshIndicatorKey,
           onRefresh: () async {
@@ -80,11 +86,11 @@ class _LinkSelectionState extends State<LinkSelectionPage> {
               : ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
                     var link = _links[index];
-                    return ListTile(
-                      title: Text(link.name),
-                      subtitle: Text(link.immatriculation),
-                      onTap: () async => await _selectLink(link),
-                    );
+                    return table.Table(link.immatriculation,
+                        ListTile(
+                          title: Text(link.name),
+                          onTap: () async => await _selectLink(link),
+                        ));
                   },
                   itemCount: _links.length,
                 ),

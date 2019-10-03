@@ -21,6 +21,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:quiver/iterables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,6 +30,7 @@ import 'package:sigaa_notas/empty_list_view.dart';
 import 'package:sigaa_notas/sigaa.dart';
 import 'package:sigaa_notas/utils.dart';
 import 'package:sqflite/sqflite.dart';
+import 'widgets/table.dart' as table;
 
 class GradesPage extends StatefulWidget {
   @override
@@ -64,9 +66,13 @@ class _GradesState extends State<GradesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Notas')),
+      appBar: AppBar(title: Text('Notas'),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
+        ),
+      ),
       drawer: Drawer(
-        child: DrawerPage(),
+        child: DrawerPage('logo'),
       ),
       body: RefreshIndicator(
         key: _refreshIndicatorKey,
@@ -81,45 +87,37 @@ class _GradesState extends State<GradesPage> {
             : ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   var course = _courses[index];
-                  return Card(
-                    margin: EdgeInsets.all(5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.fromLTRB(5, 15, 5, 0),
-                      title: Text(course.name, textAlign: TextAlign.center,),
-                      subtitle: Column(
-                        children: <Widget>[
-                          DataTable(
-                            columns: [
-                              DataColumn(label: Text('Atividade')),
-                              DataColumn(label: Text('Total')),
-                              DataColumn(label: Text('Nota')),
-                            ],
-                            rows: course.grades.map(
-                              (g) {
-                                return DataRow(
-                                  cells: [
-                                    DataCell(Text(g.activityName)),
-                                    DataCell(Text(g.totalValue)),
-                                    DataCell(Text(g.scoreValue)),
-                                  ],
-                                );
-                              },
-                            ).toList(),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              'Total: ${_sumOfGrades(course.grades)}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                  return table.Table(course.name,
+                        Column(
+                          children: <Widget>[
+                            DataTable(
+                              columns: [
+                                DataColumn(label: Text('Atividade')),
+                                DataColumn(label: Text('Total')),
+                                DataColumn(label: Text('Nota')),
+                              ],
+                              rows: course.grades.map(
+                                    (g) {
+                                  return DataRow(
+                                    cells: [
+                                      DataCell(Text(g.activityName)),
+                                      DataCell(Text(g.totalValue)),
+                                      DataCell(Text(g.scoreValue)),
+                                    ],
+                                  );
+                                },
+                              ).toList(),
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                'Total: ${_sumOfGrades(course.grades)}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          ],
+                        )
+                    );
                 },
                 itemCount: _courses.length,
               ),

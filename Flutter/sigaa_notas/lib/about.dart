@@ -24,25 +24,32 @@ import 'package:flutter/material.dart';
 import 'package:sigaa_notas/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-const version = '1.1.19'; //Change the version in future updates
+const version = '1.1.19_Experimental'; //Change the version in future updates
 
 class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Notas')),
+      appBar: AppBar(
+          title: Text('Notas'),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
+        ),
+      ),
       drawer: Drawer(
-        child: DrawerPage(),
+        child: DrawerPage('nono'),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(20, 100, 20, 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset(
-              'assets/images/logo.png',
-              width: 200,
-            ),
+            Hero(
+                tag: 'logo',
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  width: 200,
+                )),
             Padding(
               padding: const EdgeInsets.only(bottom: 40),
               child: Text(

@@ -31,6 +31,7 @@ import 'package:sigaa_notas/sigaa.dart';
 import 'package:sigaa_notas/utils.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'widgets/table.dart' as table;
 
 class SchedulesPage extends StatefulWidget {
   @override
@@ -68,6 +69,9 @@ class _SchedulesState extends State<SchedulesPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Horários'),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.calendar_today),
@@ -79,7 +83,7 @@ class _SchedulesState extends State<SchedulesPage> {
         ],
       ),
       drawer: Drawer(
-        child: DrawerPage(),
+        child: DrawerPage('logo'),
       ),
       body: RefreshIndicator(
         key: _refreshIndicatorKey,
@@ -118,7 +122,8 @@ class _SchedulesState extends State<SchedulesPage> {
                         },
                         itemCount: _todaySchedules().length),
                   ),
-                )
+                ),
+                Padding(padding: EdgeInsets.all(10))
               ] +
               [
                 [2, 'Segunda'],
@@ -128,18 +133,9 @@ class _SchedulesState extends State<SchedulesPage> {
                 [6, 'Sexta'],
               ].map(
                 (e) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.fromLTRB(10, 15, 10, 0),
-                      title: Text(
-                        e[1],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      subtitle: ListView.builder(
+                  return table.Table(
+                    e[1],
+                      ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index) {
@@ -155,8 +151,7 @@ class _SchedulesState extends State<SchedulesPage> {
                             );
                           },
                           itemCount:
-                              _schedules.where((s) => s.day == e[0]).length),
-                    ),
+                          _schedules.where((s) => s.day == e[0]).length)
                   );
                 },
               ).toList(),
@@ -179,7 +174,7 @@ class _SchedulesState extends State<SchedulesPage> {
           schedules.add(s);
         }
       } catch (e, s) {
-        debugPrint(e);
+        debugPrint(e.toString());
         debugPrint(s.toString());
       }
     }
